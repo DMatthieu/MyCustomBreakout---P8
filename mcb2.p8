@@ -48,6 +48,8 @@ function menu_draw()
 end
 
 --********************************************************
+--******************  PRACTICE SCENE *********************
+--********************************************************
 
 pad={}
 	pad.x=52
@@ -72,69 +74,65 @@ life = life_const
 	
 function game_update()
 	if life>=0 then
-		pad_ctrl()
-		ball_bhvr()
+		pad_update()
+		ball_update()
 		
 	end
 	
 	--game over detection
-	game_over_bhvr()
-	
+	if life<0 then
+		game_over_update()
+	end
 	
 end
 
 function game_draw()
 	cls()
+	--draw bg of level
 	map(0,0,0,0,128,32)
 	
-	if (blink_pad == true) then
-			pal(11,8)
-			pal(3,2)
-	else
-		pal()
-	end
-	
 	if life>=0 then
-		ball_disp()
-		life_display()
-		pad_display()
+		life_draw()
+
+		ball_draw()
+		pad_draw()
 	end
-	
-	
-	--print("life "..tostr(life))
 	
 	--game over detection
 	if life<0 then
-		game_over_disp()
+		game_over_draw()
 	end
 end
 
-function pad_display()
+-- ******  PRACTICE'S FUNCTION ZONE ******
+function pad_draw()
 	--draw the 3 sprites
 	-- composing pad
 	spr(8,pad.x,pad.y,3,1)
 	
 end
 
-function pad_ctrl()
+function pad_update()
+	--left and right
 	if (btn(0)) pad.x += pad.vxn
 	if (btn(1)) pad.x += pad.vxp
 	
+	--ball serve
 	if (btn(4))==true and pad.stick==true then
 		pad.stick=false	
 	end
 	
-	--collisions behavior
+	--collisions between pad and walls
 	if pad.x<=7 then pad.x=7 end
 	if pad.x>=121-(8*3) then pad.x=121-(8*3) end
 end
 
 --display the ball
-function ball_disp()
+function ball_draw()
 	spr(ball.img,ball.x,ball.y)
 end
 
-function ball_bhvr()
+function ball_update()
 	--ball check if sticked
 	if pad.stick ==true then
 		ball.x=pad.x+8
@@ -213,7 +211,7 @@ function life_system()
 	
 end
 
-function game_over_disp()
+function game_over_draw()
 	rectfill(9,50,118,77,0)
 	line(9,50,118,50,7)
 	line(9,77,118,77,7)
@@ -227,8 +225,7 @@ function game_over_disp()
 	spr(16,60,68)
 end
 
---*884848484848484848484848488484848484848484848484848848484848484848484848484
-function game_over_bhvr()
+function game_over_update()
 	if life<0 then
 		if (btn(5)) then
 			life = life_const
@@ -247,7 +244,7 @@ function game_over_bhvr()
 	end
 end
 
-function life_display()
+function life_draw()
 	for i=1,life do
 		spr(32,(96+(i*8)),0)
 	end
