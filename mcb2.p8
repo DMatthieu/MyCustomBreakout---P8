@@ -3,7 +3,6 @@ version 16
 __lua__
 cls()
 
---test de commit 2
 
 --for title screen anim
 t = 0
@@ -51,6 +50,24 @@ end
 --******************  PRACTICE SCENE *********************
 --********************************************************
 
+const_pad={
+	x=52,
+	y=115,
+	vxp = 2,
+	vxn = -2,
+	friction = 0.9,
+	stick=true
+}
+
+const_ball={
+	x=const_pad.x+8,
+	y=const_pad.y-5,
+	dx = 1,
+	dy = -1,
+	img=1,
+	spd=2	
+}
+
 pad={}
 	pad.x=52
 	pad.y=115
@@ -65,13 +82,14 @@ ball={}
 	ball.dx = 1
 	ball.dy = -1
 	ball.img=1
-	ball.spd=1
+	ball.spd=2
 	
 blink_pad = false
 	
 life_const = 1
 life = life_const
-	
+
+-- ============ SCENE LIFE CYCLE ============
 function game_update()
 	if life>=0 then
 		pad_update()
@@ -83,7 +101,6 @@ function game_update()
 	if life<0 then
 		game_over_update()
 	end
-	
 end
 
 function game_draw()
@@ -104,7 +121,7 @@ function game_draw()
 	end
 end
 
--- ******  PRACTICE'S FUNCTION ZONE ******
+-- ============  PRACTICE'S FUNCTION ZONE ============
 function pad_draw()
 	--draw the 3 sprites
 	-- composing pad
@@ -161,7 +178,7 @@ function ball_update()
 	
 	--collision bottom void
 	if (ball.y>=126) then
-		life_system()
+		lose_life_and_reset_player()
 	end	
 	
 	--collision pad top
@@ -194,21 +211,14 @@ function ball_update()
 	
 end
 
-function life_system()
+function lose_life_and_reset_player()
 	sfx(2)
 	--reset values pad & ball
-	pad.stick=true
-	pad.x=52
-	pad.y=115
-	ball.x=pad.x+8
-	ball.y=pad.y-5
-	ball.dx = 1
-	ball.dy = -1
+	pad = const_pad
+	ball = const_ball
 	
 	-- -1 life
 	life -= 1
-	
-	
 end
 
 function game_over_draw()
