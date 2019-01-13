@@ -16,34 +16,33 @@ end
 
 function menu_update()
 	t += 1
+
 	if (btn(5)) == true then 
 		_update = game_update
-	 _draw = game_draw
-	 
- end
+	 	_draw = game_draw
+ 	end
 end
 
 function menu_draw()
 	cls()
+
 	for i=1,3 do
-  for j0=4,7 do
-  j = 7-j0
-  col = 7+j
-  t1 = t + i*4 - j*2
-  y = 38 + j + cos(t1/50)*5
-  pal(7,col)
-  spr(48+i, 45+i*8, y)
-  end
- end
- print("my custom breakout",
-    28, 55, 8) 
- print("press x to play",
-    34, 70, 13) 
- spr(8, 52, 90)
+		for j0=4,7 do
+		j = 7-j0
+		col = 7+j
+		t1 = t + i*4 - j*2
+		y = 38 + j + cos(t1/50)*5
+		pal(7,col)
+		spr(48+i, 45+i*8, y)
+		end
+	end
+
+ 	print("my custom breakout", 28, 55, 8) 
+ 	print("press x to play", 34, 70, 13) 
+ 	spr(8, 52, 90)
 	spr(9, 60, 90)
 	spr(10, 68, 90)
-	print("- a t713 game -",
-    34, 102, 10)
+	print("- a t713 game -", 34, 102, 10)
 end
 
 --********************************************************
@@ -196,9 +195,10 @@ function ball_update()
 	end
 	
 	--collision pad left
-	if ((ball.x)>=(pad.x+1)) and
-				(ball.y >= pad.y+3) and
-				(ball.y >= pad.y+7) then
+	if (ball.x>=pad.x+1) and
+		(ball.y >= pad.y+3) and
+		(ball.y >= pad.y+7) then
+
 		ball.dx = 0-(ball.dx)
 	end
 	--collision pad bottom
